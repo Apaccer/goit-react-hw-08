@@ -23,3 +23,18 @@ export const deleteContactById = async (id) => {
 
   return data;
 };
+
+export const apiRegister = async (newUser) => {
+  const { data } = await instance.post("/users/signup", newUser);
+  return data;
+};
+
+export const apiLogin = async (user) => {
+  const { data } = await instance.post("/users/login", user);
+  return data;
+};
+
+export const apiRefresh = async (user) => {
+  const { data } = await instance.get("/users/current");
+  return data;
+};

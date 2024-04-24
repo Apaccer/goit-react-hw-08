@@ -1,15 +1,20 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useDispatch } from "react-redux";
-import { addContact } from "../../redux/contacts/operations";
+
 import * as Yup from "yup";
-import css from "./ContactForm.module.css";
+import css from "./RegistrationForm.module.css";
+import { register } from "../../redux/auth/operations";
 
 const contactFormSchema = Yup.object().shape({
   name: Yup.string()
     .required("Required")
     .min(3, "Too short!")
     .max(50, "Your name must be less than 50 characters!"),
-  number: Yup.string()
+  email: Yup.string()
+    .required("Required")
+    .min(3, "Too short!")
+    .max(50, "Your number must be less than 50 characters!"),
+  password: Yup.string()
     .required("Required")
     .min(3, "Too short!")
     .max(50, "Your number must be less than 50 characters!"),
@@ -17,15 +22,16 @@ const contactFormSchema = Yup.object().shape({
 
 const FORM_INITIAL_VALUES = {
   name: "",
-  number: "",
+  email: "",
+  password: "",
 };
 
-const ContactForm = () => {
+const RegistrationForm = () => {
   const dispatch = useDispatch();
 
   const handleSubmit = (values, actions) => {
-    dispatch(addContact(values));
     console.log(values);
+    dispatch(register(values));
     actions.resetForm();
   };
 
@@ -42,9 +48,14 @@ const ContactForm = () => {
           <ErrorMessage className={css.error} component="p" name="name" />
         </label>
         <label>
-          <p>Number</p>
-          <Field className={css.number} type="tel" name="number"></Field>
-          <ErrorMessage className={css.error} component="p" name="number" />
+          <p>Email</p>
+          <Field className={css.number} type="email" name="email"></Field>
+          <ErrorMessage className={css.error} component="p" name="email" />
+        </label>
+        <label>
+          <p>Password</p>
+          <Field className={css.number} type="password" name="password"></Field>
+          <ErrorMessage className={css.error} component="p" name="password" />
         </label>
         <button type="submit">Add contact</button>
       </Form>
@@ -52,4 +63,4 @@ const ContactForm = () => {
   );
 };
 
-export default ContactForm;
+export default RegistrationForm;

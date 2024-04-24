@@ -1,55 +1,54 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useDispatch } from "react-redux";
-import { addContact } from "../../redux/contacts/operations";
+
 import * as Yup from "yup";
-import css from "./ContactForm.module.css";
+import css from "./LoginForm.module.css";
+import { login } from "../../redux/auth/operations";
 
 const contactFormSchema = Yup.object().shape({
-  name: Yup.string()
+  email: Yup.string()
     .required("Required")
     .min(3, "Too short!")
-    .max(50, "Your name must be less than 50 characters!"),
-  number: Yup.string()
+    .max(50, "Your number must be less than 50 characters!"),
+  password: Yup.string()
     .required("Required")
     .min(3, "Too short!")
     .max(50, "Your number must be less than 50 characters!"),
 });
 
 const FORM_INITIAL_VALUES = {
-  name: "",
-  number: "",
+  email: "",
+  password: "",
 };
-
-const ContactForm = () => {
+const LoginForm = () => {
   const dispatch = useDispatch();
 
   const handleSubmit = (values, actions) => {
-    dispatch(addContact(values));
     console.log(values);
+    dispatch(login(values));
     actions.resetForm();
   };
-
   return (
     <Formik
       initialValues={FORM_INITIAL_VALUES}
       onSubmit={handleSubmit}
       validationSchema={contactFormSchema}
     >
-      <Form className={css.form}>
+      <Form>
         <label>
-          <p>Name</p>
-          <Field className={css.name} type="text" name="name"></Field>
-          <ErrorMessage className={css.error} component="p" name="name" />
+          <p>Email</p>
+          <Field className={css.name} type="email" name="email"></Field>
+          <ErrorMessage className={css.error} component="p" name="email" />
         </label>
         <label>
-          <p>Number</p>
-          <Field className={css.number} type="tel" name="number"></Field>
-          <ErrorMessage className={css.error} component="p" name="number" />
+          <p>Password</p>
+          <Field className={css.number} type="password" name="password"></Field>
+          <ErrorMessage className={css.error} component="p" name="password" />
         </label>
-        <button type="submit">Add contact</button>
+        <button type="submit">Login</button>
       </Form>
     </Formik>
   );
 };
 
-export default ContactForm;
+export default LoginForm;
