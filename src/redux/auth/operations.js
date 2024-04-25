@@ -1,10 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { apiLogin, apiRefresh, apiRegister } from "../../services/api";
-import axios from "axios";
-
-const setAuthHeader = (token) => {
-  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-};
+import {
+  apiLogin,
+  apiRefresh,
+  apiRegister,
+  setAuthHeader,
+} from "../../services/api";
 
 export const register = createAsyncThunk(
   "auth/register",
@@ -32,14 +32,12 @@ export const login = createAsyncThunk("auth/login", async (user, thunkApi) => {
 export const refreshUser = createAsyncThunk(
   "auth/refresh",
   async (_, thunkApi) => {
-    const state = thunkApi.getState();
-    const token = state.auth.token;
-    if ((token = null)) {
-      return thunkAPI.rejectWithValue("Unable to fetch user");
-    }
     try {
+      const state = thunkApi.getState();
+      const token = state.auth.token;
       setAuthHeader(token);
       const data = await apiRefresh();
+      console.log();
       return data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);

@@ -6,12 +6,16 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import RegistrationForm from "./components/RegistrationForm/RegistrationForm";
 import LoginForm from "./components/LoginForm/LoginForm";
+import { refreshUser } from "./redux/auth/operations";
+import { fetchContacts } from "./redux/contacts/operations";
 
 function App() {
   const dispatch = useDispatch();
-  // useEffect(() => {
-  //   dispatch(fetchContacts());
-  // }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(refreshUser());
+    dispatch(fetchContacts());
+  }, [dispatch]);
   return (
     <div className="container">
       <h1>Phonebook</h1>
