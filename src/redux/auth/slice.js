@@ -1,5 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { login, refreshUser, register } from "./operations";
+import { createSlice, isAnyOf } from "@reduxjs/toolkit";
+import { login, logout, refreshUser, register } from "./operations";
 
 const INITIAL_STATE = {
   user: {
@@ -18,24 +18,12 @@ const authSlice = createSlice({
   initialState: INITIAL_STATE,
   extraReducers: (builder) => {
     builder
-      .addCase(register.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
       .addCase(register.fulfilled, (state, action) => {
         state.loading = false;
         state.isLoggedIn = true;
         state.user.name = action.payload.user.name;
         state.user.email = action.payload.user.email;
         state.token = action.payload.token;
-      })
-      .addCase(register.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
-      .addCase(login.pending, (state) => {
-        state.loading = false;
-        state.isLoggedIn = true;
       })
       .addCase(login.fulfilled, (state, action) => {
         state.loading = false;
@@ -44,13 +32,8 @@ const authSlice = createSlice({
         state.user.email = action.payload.user.email;
         state.token = action.payload.token;
       })
-      .addCase(login.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
-      .addCase(refreshUser.pending, (state) => {
-        state.loading = true;
-        state.error = null;
+      .addCase(logout.fulfilled, () => {
+        return INITIAL_STATE;
       })
       .addCase(refreshUser.fulfilled, (state, action) => {
         state.loading = false;
@@ -58,10 +41,30 @@ const authSlice = createSlice({
         state.user.name = action.payload.name;
         state.user.email = action.payload.email;
       })
-      .addCase(refreshUser.rejected, (state) => {
-        state.loading = false;
-        state.error = action.payload;
-      });
+      .addMatcher(
+        isAnyOf(
+          register.pending,
+          login.pending,
+          logout.pending,
+          refreshUser.pending
+        ),
+        (state) => {
+          state.loading = true;
+          state.error = null;
+        }
+      )
+      .addMatcher(
+        isAnyOf(
+          register.rejected,
+          login.rejected,
+          logout.rejected,
+          refreshUser.rejected
+        ),
+        (state) => {
+          state.loading = false;
+          state.error = action.payload;
+        }
+      );
   },
 });
 export const authReducer = authSlice.reducer;

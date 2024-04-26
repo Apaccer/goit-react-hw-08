@@ -7,6 +7,8 @@ const instance = axios.create({
 export const setAuthHeader = (token) => {
   instance.defaults.headers.common.Authorization = `Bearer ${token}`;
 };
+export const clearToken = () =>
+  (instance.defaults.headers.common.Authorization = "");
 
 export const requestContacts = async () => {
   const { data } = await instance.get("/contacts");
@@ -38,8 +40,11 @@ export const apiLogin = async (user) => {
   return data;
 };
 
+export const apiLogOut = async () => {
+  const { data } = await instance.post("/users/logout");
+  return data;
+};
 export const apiRefresh = async () => {
   const { data } = await instance.get("/users/current");
-  console.log(data);
   return data;
 };

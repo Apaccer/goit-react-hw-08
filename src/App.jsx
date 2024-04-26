@@ -1,13 +1,22 @@
 import "./App.css";
-import ContactForm from "./components/ContactForm/ContactForm";
-import SearchBox from "./components/SearchBox/SearchBox";
-import ContactList from "./components/ContactList/ContactList";
-import { useEffect } from "react";
+import { Suspense, lazy, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import RegistrationForm from "./components/RegistrationForm/RegistrationForm";
-import LoginForm from "./components/LoginForm/LoginForm";
 import { refreshUser } from "./redux/auth/operations";
 import { fetchContacts } from "./redux/contacts/operations";
+import { Route, Routes } from "react-router-dom";
+import Layout from "./components/Layout/Layout";
+import Loader from "./components/Loader/Loader";
+import RegistrationPage from "./pages/RegistrationPage/RegistrationPage";
+import ContactsPage from "./pages/ContactsPage/ContactsPage";
+import LoginPage from "./pages/LoginPage/LoginPage";
+const HomePage = lazy(() => import("./pages/HomePage/HomePage"));
+const RestrictedRoute = lazy(() =>
+  import("./components/RestrictedRoute/RestrictedRoute")
+);
+const PrivateRoute = lazy(() =>
+  import("./components/PrivateRoute/PrivateRoute")
+);
+const NotFound = lazy(() => import("./components/NotFound/NotFound"));
 
 function App() {
   const dispatch = useDispatch();
@@ -17,14 +26,38 @@ function App() {
     dispatch(fetchContacts());
   }, [dispatch]);
   return (
-    <div className="container">
-      <h1>Phonebook</h1>
-      <ContactForm />
-      <SearchBox />
-      <RegistrationForm />
-      <LoginForm />
-      <ContactList />
-    </div>
+    <Layout>
+      <Suspense fallback={<Loader />}>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route
+            path="/register"
+            element={
+              <RestrictedRoute>
+                <RegistrationPage />
+              </RestrictedRoute>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <RestrictedRoute>
+                <LoginPage />
+              </RestrictedRoute>
+            }
+          />
+          <Route
+            path="/contacts"
+            element={
+              <PrivateRoute>
+                <ContactsPage />
+              </PrivateRoute>
+            }
+          />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
+    </Layout>
   );
 }
 
