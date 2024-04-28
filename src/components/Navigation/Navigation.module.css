@@ -14,6 +14,11 @@
   text-decoration: none;
   transition: all 0.3s;
 }
+
+.navLink:hover,
+.navLink:focus {
+  transform: scale(1.1);
+}
 .active {
   background-color: #84fab0;
   color: white;

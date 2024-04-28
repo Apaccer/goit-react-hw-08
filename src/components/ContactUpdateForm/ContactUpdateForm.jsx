@@ -20,11 +20,11 @@ const FORM_INITIAL_VALUES = {
   number: "",
 };
 
-const ContactForm = ({ closeModal }) => {
+const ContactUpdateForm = ({ closeModal }) => {
   const dispatch = useDispatch();
 
   const handleSubmit = (values, actions) => {
-    dispatch(addContact(values));
+    dispatch(updateContact(values));
     closeModal();
     actions.resetForm();
   };
@@ -52,4 +52,4 @@ const ContactForm = ({ closeModal }) => {
   );
 };
 
-export default ContactForm;
+export default ContactUpdateForm;

@@ -14,7 +14,7 @@ const customStyles = {
 };
 
 Modal.setAppElement("#root");
-const ModalAddContact = ({ closeModal, modalIsOpen }) => {
+const ModalUpdateContact = ({ closeModal, modalIsOpen }) => {
   return (
     <Modal
       isOpen={modalIsOpen}
@@ -27,4 +27,4 @@ const ModalAddContact = ({ closeModal, modalIsOpen }) => {
   );
 };
 
-export default ModalAddContact;
+export default ModalUpdateContact;

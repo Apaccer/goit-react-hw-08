@@ -30,6 +30,12 @@ export const deleteContactById = async (id) => {
   return data;
 };
 
+export const updateContactById = async (id) => {
+  const { data } = await instance.patch(`/contacts/${id}`);
+
+  return data;
+};
+
 export const apiRegister = async (newUser) => {
   const { data } = await instance.post("/users/signup", newUser);
   return data;

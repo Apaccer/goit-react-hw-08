@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { fetchContacts } from "../../redux/contacts/operations";
 import css from "./ContactsPage.module.css";
 import ModalAddContact from "../../components/ModalAddContact/ModalAddContact";
+import SearchBox from "../../components/SearchBox/SearchBox";
 
 const ContactsPage = () => {
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -27,8 +28,13 @@ const ContactsPage = () => {
   }, [dispatch]);
   return (
     <div className={css.contactsContainer}>
-      <button onClick={openModal}>Add contact</button>
-      <ModalAddContact closeModal={closeModal} modalIsOpen={modalIsOpen} />
+      <div className={css.contactsMenu}>
+        <ModalAddContact closeModal={closeModal} modalIsOpen={modalIsOpen} />
+        <SearchBox />
+        <button className={css.modalBtn} onClick={openModal}>
+          Add new contact
+        </button>
+      </div>
       <ContactList />
     </div>
   );

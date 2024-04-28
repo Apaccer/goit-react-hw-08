@@ -16,4 +16,9 @@
   color: black;
   border-radius: 10px;
   text-decoration: none;
+  transition: all 0.3s;
+}
+.logOutBtn:hover,
+.logOutBtn:focus {
+  transform: scale(1.1);
 }
