@@ -20,12 +20,19 @@ const FORM_INITIAL_VALUES = {
   number: "",
 };
 
-const ContactForm = ({ closeModal }) => {
+const ContactForm = ({ closeModal, toast }) => {
   const dispatch = useDispatch();
 
   const handleSubmit = (values, actions) => {
     dispatch(addContact(values));
     closeModal();
+    toast("You was add contact successfully!", {
+      style: {
+        borderRadius: "10px",
+        background: "#84fab0",
+        color: "red",
+      },
+    });
     actions.resetForm();
   };
 

@@ -5,16 +5,13 @@ import { fetchContacts } from "../../redux/contacts/operations";
 import css from "./ContactsPage.module.css";
 import ModalAddContact from "../../components/ModalAddContact/ModalAddContact";
 import SearchBox from "../../components/SearchBox/SearchBox";
+import toast, { Toaster } from "react-hot-toast";
 
 const ContactsPage = () => {
   const [modalIsOpen, setIsOpen] = useState(false);
 
   function openModal() {
     setIsOpen(true);
-  }
-
-  function afterOpenModal() {
-    subtitle.style.color = "#f00";
   }
 
   function closeModal() {
@@ -29,13 +26,18 @@ const ContactsPage = () => {
   return (
     <div className={css.contactsContainer}>
       <div className={css.contactsMenu}>
-        <ModalAddContact closeModal={closeModal} modalIsOpen={modalIsOpen} />
+        <ModalAddContact
+          closeModal={closeModal}
+          modalIsOpen={modalIsOpen}
+          toast={toast}
+        />
         <SearchBox />
         <button className={css.modalBtn} onClick={openModal}>
           Add new contact
         </button>
       </div>
-      <ContactList />
+      <ContactList toast={toast} />
+      <Toaster position="top-center" reverseOrder={false} />
     </div>
   );
 };

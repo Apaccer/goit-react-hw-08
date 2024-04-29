@@ -14,7 +14,7 @@ const customStyles = {
 };
 
 Modal.setAppElement("#root");
-const ModalAddContact = ({ closeModal, modalIsOpen }) => {
+const ModalAddContact = ({ closeModal, modalIsOpen, toast }) => {
   return (
     <Modal
       isOpen={modalIsOpen}
@@ -22,7 +22,7 @@ const ModalAddContact = ({ closeModal, modalIsOpen }) => {
       style={customStyles}
       contentLabel="Example Modal"
     >
-      <ContactForm closeModal={closeModal} />
+      <ContactForm closeModal={closeModal} toast={toast} />
     </Modal>
   );
 };

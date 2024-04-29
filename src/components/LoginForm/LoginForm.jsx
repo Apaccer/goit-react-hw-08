@@ -33,7 +33,7 @@ const LoginForm = () => {
       onSubmit={handleSubmit}
       validationSchema={contactFormSchema}
     >
-      <Form>
+      <Form className={css.form}>
         <label>
           <p>Email</p>
           <Field className={css.name} type="email" name="email"></Field>
@@ -41,10 +41,16 @@ const LoginForm = () => {
         </label>
         <label>
           <p>Password</p>
-          <Field className={css.number} type="password" name="password"></Field>
+          <Field
+            className={css.password}
+            type="password"
+            name="password"
+          ></Field>
           <ErrorMessage className={css.error} component="p" name="password" />
         </label>
-        <button type="submit">Login</button>
+        <button className={css.btn} type="submit">
+          Login
+        </button>
       </Form>
     </Formik>
   );

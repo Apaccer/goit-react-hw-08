@@ -3,15 +3,21 @@ import { useDispatch } from "react-redux";
 import { deleteContact } from "../../redux/contacts/operations";
 import { FaPhoneAlt } from "react-icons/fa";
 import { IoMdContact } from "react-icons/io";
+import { useState } from "react";
 
-const Contact = ({ contact }) => {
-  const dispatch = useDispatch();
-  const onDeleteContact = (contactId) => {
-    dispatch(deleteContact(contactId));
-  };
-  const onUpdateContact = (contactId) => {
-    dispatch(deleteContact(contactId));
-  };
+import ModalDeleteContact from "../ModalDeleteContact/ModalDeleteContact";
+
+const Contact = ({ contact, toast }) => {
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const [contactId, setContactId] = useState(null);
+
+  function openModal(id) {
+    setContactId(id);
+    setIsOpen(true);
+  }
+  function closeModal() {
+    setIsOpen(false);
+  }
   return (
     <li className={css.contactItem}>
       <div className={css.contactInfo}>
@@ -22,14 +28,19 @@ const Contact = ({ contact }) => {
           <FaPhoneAlt />: {contact.number}
         </p>
       </div>
-      <div>
-        <button onClick={() => onDeleteContact(contact.id)} type="button">
-          Delete
-        </button>
-        <button onClick={() => onUpdateContact(contact.id)} type="button">
-          Update
-        </button>
-      </div>
+      <button
+        className={css.btn}
+        onClick={() => openModal(contact.id)}
+        type="button"
+      >
+        Delete
+      </button>
+      <ModalDeleteContact
+        contactId={contactId}
+        closeModal={closeModal}
+        modalIsOpen={modalIsOpen}
+        toast={toast}
+      />
     </li>
   );
 };

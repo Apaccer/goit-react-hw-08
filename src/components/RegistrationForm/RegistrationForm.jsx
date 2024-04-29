@@ -49,15 +49,17 @@ const RegistrationForm = () => {
         </label>
         <label>
           <p>Email</p>
-          <Field className={css.number} type="email" name="email"></Field>
+          <Field className={css.name} type="email" name="email"></Field>
           <ErrorMessage className={css.error} component="p" name="email" />
         </label>
         <label>
           <p>Password</p>
-          <Field className={css.number} type="password" name="password"></Field>
+          <Field className={css.name} type="password" name="password"></Field>
           <ErrorMessage className={css.error} component="p" name="password" />
         </label>
-        <button type="submit">Add contact</button>
+        <button className={css.btn} type="submit">
+          Register
+        </button>
       </Form>
     </Formik>
   );
