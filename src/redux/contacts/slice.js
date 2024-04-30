@@ -5,6 +5,7 @@ import {
   fetchContacts,
   updateContact,
 } from "./operations";
+import { logout } from "../auth/operations";
 
 const INITIAL_STATE = {
   contacts: {
@@ -65,7 +66,18 @@ const contactsSlice = createSlice({
         state.contacts.loading = false;
         state.contacts.items = action.payload;
       })
-      .addCase(updateContact.rejected, () => {
+      .addCase(updateContact.rejected, (state, action) => {
+        state.contacts.loading = false;
+        state.contacts.error = action.payload;
+      })
+      .addCase(logout.pending, (state) => {
+        state.contacts.loading = true;
+        state.contacts.error = null;
+      })
+      .addCase(logout.fulfilled, () => {
+        return INITIAL_STATE;
+      })
+      .addCase(logout.rejected, (state, action) => {
         state.contacts.loading = false;
         state.contacts.error = action.payload;
       }),
