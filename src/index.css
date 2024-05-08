@@ -25,6 +25,12 @@ a {
 }
 
 button {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border: none;
+  outline: none;
+  background: none;
   cursor: pointer;
 }
 

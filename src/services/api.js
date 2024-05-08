@@ -30,8 +30,8 @@ export const deleteContactById = async (id) => {
   return data;
 };
 
-export const updateContactById = async (id) => {
-  const { data } = await instance.patch(`/contacts/${id}`);
+export const updateContactById = async (id, values) => {
+  const { data } = await instance.patch(`/contacts/${id}`, values);
 
   return data;
 };

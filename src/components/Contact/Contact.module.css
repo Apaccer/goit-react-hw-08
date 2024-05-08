@@ -2,13 +2,18 @@
   border: 2px solid black;
   border-radius: 10px;
   display: flex;
-  justify-content: space-between;
-  padding: 10px 5px;
-  min-width: 240px;
+  justify-content: center;
   align-items: center;
+  padding: 10px;
+  flex-direction: column;
 }
-.contactInfo p:not(:last-child) {
-  margin-bottom: 5px;
+.contactInfo {
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
 }
 .btn {
   display: flex;
@@ -25,4 +30,11 @@
 .btn:hover,
 .btn:focus {
   transform: scale(1.1);
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }

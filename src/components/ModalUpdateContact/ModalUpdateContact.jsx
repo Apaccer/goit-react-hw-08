@@ -1,7 +1,8 @@
+import { useDispatch } from "react-redux";
+import { updateContact } from "../../redux/contacts/operations";
 import ContactForm from "../ContactForm/ContactForm";
 import Modal from "react-modal";
-import { addContact } from "../../redux/contacts/operations";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
 
 const customStyles = {
   content: {
@@ -16,12 +17,19 @@ const customStyles = {
 };
 
 Modal.setAppElement("#root");
-const ModalAddContact = ({ closeModal, modalIsOpen }) => {
+const ModalUpdateContact = ({
+  closeModal,
+  modalIsOpen,
+  contactId,
+  contact,
+}) => {
   const dispatch = useDispatch();
-  const addNewContact = (values) => {
-    dispatch(addContact(values));
+  const updateMyContact = (values) => {
+    let updatesContact = { contactId, ...values };
+    dispatch(updateContact(updatesContact));
     closeModal();
   };
+
   return (
     <Modal
       isOpen={modalIsOpen}
@@ -31,11 +39,11 @@ const ModalAddContact = ({ closeModal, modalIsOpen }) => {
     >
       <ContactForm
         closeModal={closeModal}
-        buttonName={"Add contact"}
-        addNewContact={addNewContact}
+        buttonName={"Update contact"}
+        updateMyContact={updateMyContact}
+        contact={contact}
       />
     </Modal>
   );
 };
-
-export default ModalAddContact;
+export default ModalUpdateContact;

@@ -1,8 +1,7 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import { useDispatch } from "react-redux";
-import { addContact } from "../../redux/contacts/operations";
 import * as Yup from "yup";
 import css from "./ContactForm.module.css";
+import { useEffect, useRef } from "react";
 
 const contactFormSchema = Yup.object().shape({
   name: Yup.string()
@@ -19,33 +18,46 @@ const FORM_INITIAL_VALUES = {
   name: "",
   number: "",
 };
+const ContactForm = ({
+  buttonName,
+  addNewContact,
+  updateMyContact,
+  contact = FORM_INITIAL_VALUES,
+}) => {
+  const firstInputRef = useRef(null);
 
-const ContactForm = ({ closeModal, toast }) => {
-  const dispatch = useDispatch();
+  useEffect(() => {
+    if (firstInputRef.current !== null) {
+      firstInputRef.current.focus();
+    }
+  }, []);
+
+  const updatesContactValue = { name: contact.name, number: contact.number };
 
   const handleSubmit = (values, actions) => {
-    dispatch(addContact(values));
-    closeModal();
-    toast("You was add contact successfully!", {
-      style: {
-        borderRadius: "10px",
-        background: "#84fab0",
-        color: "red",
-      },
-    });
+    {
+      buttonName === "Update contact"
+        ? updateMyContact(values)
+        : addNewContact(values);
+    }
     actions.resetForm();
   };
 
   return (
     <Formik
-      initialValues={FORM_INITIAL_VALUES}
+      initialValues={updatesContactValue}
       onSubmit={handleSubmit}
       validationSchema={contactFormSchema}
     >
       <Form className={css.form}>
         <label>
           <p>Name</p>
-          <Field className={css.name} type="text" name="name"></Field>
+          <Field
+            className={css.name}
+            type="text"
+            name="name"
+            innerRef={firstInputRef}
+          ></Field>
           <ErrorMessage className={css.error} component="p" name="name" />
         </label>
         <label>
@@ -53,10 +65,9 @@ const ContactForm = ({ closeModal, toast }) => {
           <Field className={css.number} type="tel" name="number"></Field>
           <ErrorMessage className={css.error} component="p" name="number" />
         </label>
-        <button type="submit">Add contact</button>
+        <button type="submit">{buttonName}</button>
       </Form>
     </Formik>
   );
 };
-
 export default ContactForm;
